@@ -3,8 +3,10 @@ package com.example.aivle_4th_MiniProject_team19.Service;
 import com.example.aivle_4th_MiniProject_team19.Controller.dto.BookCreateForm;
 import com.example.aivle_4th_MiniProject_team19.Controller.dto.BookUpdateForm;
 import com.example.aivle_4th_MiniProject_team19.Entity.Book;
+import com.example.aivle_4th_MiniProject_team19.Entity.Member;
 import com.example.aivle_4th_MiniProject_team19.Exception.BookNotFoundException;
 import com.example.aivle_4th_MiniProject_team19.Repository.BookQueryRepository;
+import com.example.aivle_4th_MiniProject_team19.Repository.MemberRepository;
 import com.example.aivle_4th_MiniProject_team19.Repository.BookRepository;
 import com.example.aivle_4th_MiniProject_team19.Repository.dto.BookSearch;
 import com.example.aivle_4th_MiniProject_team19.Service.dto.BookDetailDto;
@@ -27,11 +29,10 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final BookQueryRepository bookQueryRepository;
-
+    private final MemberRepository memberRepository;
     // 도서 등록
     @Transactional
     public Long createBook(BookCreateForm bookCreateForm) {
-
         Book book = bookCreateForm.toEntity();
         log.info("bookCreateForm.toEntity() : {}, {}, {}", book.getId(), book.getAuthorName(), book.getDescription());
         Book savedBook = bookRepository.save(book);
