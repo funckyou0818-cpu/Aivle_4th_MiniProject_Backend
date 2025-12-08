@@ -26,10 +26,11 @@ public class BookController {
 
     // 도서 등록
     @PostMapping
-    public ApiResponse<Long> createBook(@Valid @RequestBody BookCreateForm bookCreateForm) {
+    public ApiResponse<Long> createBook(@Valid @RequestBody BookCreateForm bookCreateForm,
+                                        @RequestHeader("Authorization") String authHeader) {
         log.info("BookCreateForm : {}", bookCreateForm.toString());
 
-        Long bookId = bookService.createBook(bookCreateForm);
+        Long bookId = bookService.createBook(bookCreateForm, authHeader);
 
         return ApiResponse.of(bookId);
     }
