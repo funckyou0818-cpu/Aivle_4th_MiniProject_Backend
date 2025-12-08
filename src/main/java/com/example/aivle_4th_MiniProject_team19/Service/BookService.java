@@ -3,13 +3,16 @@ package com.example.aivle_4th_MiniProject_team19.Service;
 import com.example.aivle_4th_MiniProject_team19.Controller.dto.BookCreateForm;
 import com.example.aivle_4th_MiniProject_team19.Controller.dto.BookUpdateForm;
 import com.example.aivle_4th_MiniProject_team19.Entity.Book;
+import com.example.aivle_4th_MiniProject_team19.Entity.Member;
 import com.example.aivle_4th_MiniProject_team19.Exception.BookNotFoundException;
 import com.example.aivle_4th_MiniProject_team19.Repository.BookQueryRepository;
+import com.example.aivle_4th_MiniProject_team19.Repository.MemberRepository;
 import com.example.aivle_4th_MiniProject_team19.Repository.BookRepository;
 import com.example.aivle_4th_MiniProject_team19.Repository.dto.BookSearch;
 import com.example.aivle_4th_MiniProject_team19.Service.dto.BookDetailDto;
 import com.example.aivle_4th_MiniProject_team19.Service.dto.BookListDto;
 import com.example.aivle_4th_MiniProject_team19.Service.dto.MemberDto;
+import com.example.aivle_4th_MiniProject_team19.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,12 +30,22 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final BookQueryRepository bookQueryRepository;
-
+    private final MemberRepository memberRepository;
+    private final JwtUtil jwtUtil;
     // 도서 등록
     @Transactional
-    public Long createBook(BookCreateForm bookCreateForm) {
+    public Long createBook(BookCreateForm bookCreateForm, String authHeder) {
+        // 토큰 추출
+        String token = authHeder.replace("Bearer ", "");
+        // username 꺼내기
+        String username = jwtUtil.getUsername(token);
+        // Member 조회
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Member not found: " + username));
 
         Book book = bookCreateForm.toEntity();
+        // Member 연결
+        book.setMember(member);
         log.info("bookCreateForm.toEntity() : {}, {}, {}", book.getId(), book.getAuthorName(), book.getDescription());
         Book savedBook = bookRepository.save(book);
         log.info("savedBook : {}, {}, {}", savedBook.getId(), savedBook.getAuthorName(), savedBook.getDescription());

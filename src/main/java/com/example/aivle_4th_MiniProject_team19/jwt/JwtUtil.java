@@ -35,4 +35,28 @@ public class JwtUtil {
                 .signWith(key)
                 .compact();
     }
+
+    // 3) 토큰에서 username(subject) 추출
+    public String getUsername(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)       // 검증 시 필요한 key 설정
+                .build()
+                .parseClaimsJws(token)    // JWT 파싱 및 검증
+                .getBody()
+                .getSubject();            // subject = username
+    }
+
+    // 4) 토큰 유효성 검사
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token); // 문제 없으면 정상 토큰
+            return true;
+        } catch (Exception e) {
+            // 만료, 변조, 서명 오류 등 발생
+            return false;
+        }
+    }
 }

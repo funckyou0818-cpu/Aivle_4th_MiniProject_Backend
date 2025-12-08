@@ -29,7 +29,6 @@ public class Book extends BaseEntity {
 
     // 연관 관계 편의 메서드 (Member)
     public void setMember(Member member) {
-
         this.member = member;
         member.getBooks().add(this);
     }
