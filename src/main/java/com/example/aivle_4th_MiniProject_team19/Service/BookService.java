@@ -11,7 +11,7 @@ import com.example.aivle_4th_MiniProject_team19.Repository.BookRepository;
 import com.example.aivle_4th_MiniProject_team19.Repository.dto.BookSearch;
 import com.example.aivle_4th_MiniProject_team19.Service.dto.BookDetailDto;
 import com.example.aivle_4th_MiniProject_team19.Service.dto.BookListDto;
-import com.example.aivle_4th_MiniProject_team19.Service.dto.MemberDto;
+//import com.example.aivle_4th_MiniProject_team19.Service.dto.MemberDto;
 import com.example.aivle_4th_MiniProject_team19.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+//import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -92,12 +92,17 @@ public class BookService {
 
     // 도서 수정
     @Transactional
-    public Long updateBook(Long bookId, BookUpdateForm bookUpdateForm) {
+    public Long updateBook(Long bookId, BookUpdateForm bookUpdateForm, String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String username = jwtUtil.getUsername(token);
 
         // 단건 조회
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException("해당 도서를 찾을 수 없습니다. bookId = " + bookId));
 
+        if (!book.getMember().getUsername().equals(username)) {
+            throw new RuntimeException("본인이 등록한 책만 수정할 수 있습니다.");
+        }
         // 수정 (변경 감지)
         book.update(bookUpdateForm.getTitle(), bookUpdateForm.getAuthorName(), bookUpdateForm.getCategory(), bookUpdateForm.getDescription());
 
@@ -106,7 +111,16 @@ public class BookService {
 
     // 도서 삭제
     @Transactional
-    public Long deleteBook(Long bookId) {
+    public Long deleteBook(Long bookId, String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String username = jwtUtil.getUsername(token);
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookNotFoundException("bookId not found"));
+
+        if (!book.getMember().getUsername().equals(username)) {
+            throw new RuntimeException("본인이 등록한 책만 삭제할 수 있습니다.");
+        }
         bookRepository.deleteById(bookId);
         return bookId;
     }

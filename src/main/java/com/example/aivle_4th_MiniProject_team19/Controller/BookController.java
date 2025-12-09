@@ -2,7 +2,7 @@ package com.example.aivle_4th_MiniProject_team19.Controller;
 
 import com.example.aivle_4th_MiniProject_team19.Controller.dto.BookCreateForm;
 import com.example.aivle_4th_MiniProject_team19.Controller.dto.BookUpdateForm;
-import com.example.aivle_4th_MiniProject_team19.Entity.Book;
+//import com.example.aivle_4th_MiniProject_team19.Entity.Book;
 import com.example.aivle_4th_MiniProject_team19.Repository.BookRepository;
 import com.example.aivle_4th_MiniProject_team19.Service.BookService;
 import com.example.aivle_4th_MiniProject_team19.Service.dto.BookDetailDto;
@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+//import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -69,20 +69,22 @@ public class BookController {
     // 도서 수정
     @PutMapping("/{bookId}")
     public ApiResponse<Long> updateBook(@PathVariable(name = "bookId") Long bookId,
-                                        @RequestBody BookUpdateForm bookUpdateForm) {
+                                        @RequestBody BookUpdateForm bookUpdateForm,
+                                        @RequestHeader("Authorization") String authHeader) {
         log.info("updateBook()");
 
-        Long id = bookService.updateBook(bookId, bookUpdateForm);
+        Long id = bookService.updateBook(bookId, bookUpdateForm, authHeader);
 
         return ApiResponse.of(id);
     }
 
     // 도서 삭제
     @DeleteMapping("/{bookId}")
-    public ApiResponse<Long> deleteBook(@PathVariable(name = "bookId") Long bookId) {
+    public ApiResponse<Long> deleteBook(@PathVariable(name = "bookId") Long bookId,
+                                        @RequestHeader("Authorization") String authHeader) {
         log.info("deleteBook()");
 
-        Long id = bookService.deleteBook(bookId);
+        Long id = bookService.deleteBook(bookId, authHeader);
 
         return ApiResponse.of(id);
     }
