@@ -3,11 +3,11 @@ version: 0.2
 phases:
   build:
     commands:
+      - chmod +x gradlew
       - ./gradlew build -x test
 
 artifacts:
   files:
     - build/libs/*.jar
     - appspec.yml
-    - scripts/**/*
-
+    - deploy-scripts/**/*
