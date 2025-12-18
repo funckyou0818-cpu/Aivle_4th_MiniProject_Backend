@@ -10,9 +10,8 @@ phases:
   build:
     commands:
       - echo "Build started"
-      - ls -al
-      - chmod +x ../gradlew
-      - ../gradlew build -x test
+      - ls -al ..
+      - bash ../gradlew build -x test
 
 artifacts:
   files:
