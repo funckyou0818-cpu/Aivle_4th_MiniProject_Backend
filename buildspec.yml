@@ -7,10 +7,6 @@ phases:
     commands:
       - echo "Install phase"
 
-  pre_build:
-    commands:
-      - echo "Pre-build phase"
-
   build:
     commands:
       - echo "Build started"
