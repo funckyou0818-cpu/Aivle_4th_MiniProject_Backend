@@ -1,21 +1,28 @@
 version: 0.2
+
 phases:
   install:
     runtime-versions:
-      nodejs: 20
+      java: corretto17
     commands:
-      - npm install -g @angular/cli@17
+      - echo "Installing dependencies..."
+      - chmod +x gradlew
+
   pre_build:
     commands:
-      - npm install
+      - echo "Pre-build phase"
+      - ./gradlew clean
+
   build:
     commands:
-      - ng build -c production
-      - echo "Build completed."
-    finally:
-      - echo This is the finally block execution!
+      - echo "Build started on `date`"
+      - ./gradlew build -x test
+
+  post_build:
+    commands:
+      - echo "Build completed on `date`"
+
 artifacts:
   files:
-    - 'dist/my-angular-project/**/*'
-    - appspec.yml
-    - 'deploy-scripts/**'
+    - build/libs/*.jar
+  discard-paths: yes
