@@ -5,22 +5,18 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
-      - echo "Installing dependencies..."
-      - chmod +x gradlew
+      - echo "Install phase"
 
   pre_build:
     commands:
       - echo "Pre-build phase"
-      - ./gradlew clean
 
   build:
     commands:
-      - echo "Build started on `date`"
+      - echo "Build started"
+      - cd ..
+      - chmod +x gradlew
       - ./gradlew build -x test
-
-  post_build:
-    commands:
-      - echo "Build completed on `date`"
 
 artifacts:
   files:
