@@ -1,18 +1,13 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      java: corretto17
-
   build:
     commands:
-      - echo "Build started"
-      - bash gradlew build -x test
+      - ./gradlew build -x test
 
 artifacts:
   files:
     - build/libs/*.jar
     - appspec.yml
-    - deploy-scripts/**/*
-  discard-paths: yes
+    - scripts/**/*
+
