@@ -11,6 +11,8 @@ phases:
     commands:
       - echo "Build started"
       - ls -al ..
+      # 🔑 Windows CRLF → Unix LF 변환
+      - sed -i 's/\r$//' ../gradlew
       - bash ../gradlew build -x test
 
 artifacts:
