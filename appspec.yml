@@ -8,11 +8,11 @@ files:
 hooks:
   ApplicationStop:
     - location: deploy-scripts/stop.sh
-      timeout: 300
+      timeout: 60
       runas: ec2-user
 
   ApplicationStart:
     - location: deploy-scripts/start.sh
-      timeout: 300
+      timeout: 60
       runas: ec2-user
 
