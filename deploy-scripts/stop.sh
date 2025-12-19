@@ -3,12 +3,10 @@
 PID=$(pgrep -f 'aivle_4th_MiniProject')
 
 if [ -z "$PID" ]; then
-  echo "No application process found. Skipping stop."
+  echo "No process found. Skip stopping."
   exit 0
 fi
 
-echo "Stopping application with PID: $PID"
-kill -15 $PID
+kill -15 $PID || true
 sleep 5
-
 exit 0
