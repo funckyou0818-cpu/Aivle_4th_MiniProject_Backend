@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 
 files:
-  - source: /app/build/libs
+  - source: /app/build/libs/aivle_4th_MiniProject_team19-0.0.1-SNAPSHOT.jar
     destination: /home/ec2-user/app
 
 hooks:
