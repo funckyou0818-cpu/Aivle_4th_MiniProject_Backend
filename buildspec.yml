@@ -11,3 +11,6 @@ artifacts:
     - build/libs/*.jar
     - appspec.yml
     - deploy-scripts/**/*
+cache:
+  paths:
+    - node_modules/**/*
