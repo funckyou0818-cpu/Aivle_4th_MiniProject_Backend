@@ -4,6 +4,8 @@ os: linux
 files:
   - source: /
     destination: /home/ec2-user/app
+    exclude:
+      - appspec.yml
 
 permissions:
   - object: /home/ec2-user/app
