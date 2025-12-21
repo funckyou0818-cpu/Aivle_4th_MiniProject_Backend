@@ -6,6 +6,7 @@ files:
     destination: /home/ec2-user/app
     exclude:
       - appspec.yml
+      - deploy-scripts/**
 
 permissions:
   - object: /home/ec2-user/app
@@ -14,17 +15,18 @@ permissions:
     mode: 755
     type:
       - directory
-      - file
 
 hooks:
   BeforeInstall:
     - location: deploy-scripts/cleanup.sh
       runas: root
-  ApplicationStart:
-    - location: deploy-scripts/application-start-hook.sh
-      timeout: 60
-      runas: ec2-user
+
   ApplicationStop:
     - location: deploy-scripts/application-stop-hook.sh
       timeout: 60
-      runas: ec2-user
+      runas: root
+
+  ApplicationStart:
+    - location: deploy-scripts/application-start-hook.sh
+      timeout: 60
+      runas: root
