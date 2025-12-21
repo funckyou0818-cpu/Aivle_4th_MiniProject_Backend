@@ -19,7 +19,7 @@ permissions:
 hooks:
   BeforeInstall:
     - location: deploy-scripts/cleanup.sh
-      runas: ec2-user
+      runas: root
   ApplicationStart:
     - location: deploy-scripts/application-start-hook.sh
       timeout: 60
