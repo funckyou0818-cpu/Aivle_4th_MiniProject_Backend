@@ -17,6 +17,6 @@ public class TestController {
 
     @GetMapping
     private String getBookList() {
-        return "테스트 성공";
+        return "테스트 완료";
     }
 }
